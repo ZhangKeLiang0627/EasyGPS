@@ -1,0 +1,16 @@
+{
+  "sportStatus.totalDistance": 11912.2373,
+  "sportStatus.totalTimeUINT32[0]": 8895260,
+  "sportStatus.totalTimeUINT32[1]": 0,
+  "sportStatus.speedMaxKph": 117.1760406,
+  "sportStatus.weight": 65,
+  "sysConfig.longitude": 113.9342575,
+  "sysConfig.latitude": 22.53647423,
+  "sysConfig.soundEnable": 1,
+  "sysConfig.timeZone": 8,
+  "sysConfig.language": "en-GB",
+  "sysConfig.arrowTheme": "default",
+  "sysConfig.mapDirPath": "/MAP",
+  "sysConfig.mapExtName": "bin",
+  "sysConfig.mapWGS84": 0
+}}
