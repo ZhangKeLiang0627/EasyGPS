@@ -6,7 +6,7 @@
 
 ---
 
-视频介绍：[戳这儿:)]()
+视频介绍：[戳这儿:)](https://www.bilibili.com/video/BV1M44219745/)
 
 硬件开源：[戳这里:P](https://oshwhub.com/hugego/easygps-ji-yu-esp32s3-de-gps-zhui-zong-qi)
 
