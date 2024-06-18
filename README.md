@@ -39,6 +39,9 @@ MicroSDcard/
 └─.SystemSaveBackup.json
 ```
 
+## 思维导图
+![Pic](/4.Pics/XMind.png)
+
 ## 鸣谢
 - 感谢[@FASTSHIFT](https://github.com/FASTSHIFT)的[X-TRACK](https://github.com/FASTSHIFT/X-TRACK)项目：提供了本项目的大致框架。
 - 感谢[@Forairaaaaa](https://github.com/Forairaaaaa)的[Chappie-Core](https://github.com/Forairaaaaa/Chappie-Core)项目：提供了ESP32S3在Arduino开发框架的BSP，同时提供硬件的参考设计。
