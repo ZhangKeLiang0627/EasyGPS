@@ -1,0 +1,17 @@
+QMC5883LCompass		KEYWORD1
+init			KEYWORD2
+setADDR			KEYWORD2
+setMode			KEYWORD2
+setSmoothing		KEYWORD2
+setReset		KEYWORD2
+read			KEYWORD2
+getX			KEYWORD2
+getY			KEYWORD2
+getZ			KEYWORD2
+getAzimuth		KEYWORD2
+getBearing		KEYWORD2
+getDirection		KEYWORD2
+init			KEYWORD2
+setADDR			KEYWORD2
+setMode			KEYWORD2
+setSmoothing		KEYWORD2
