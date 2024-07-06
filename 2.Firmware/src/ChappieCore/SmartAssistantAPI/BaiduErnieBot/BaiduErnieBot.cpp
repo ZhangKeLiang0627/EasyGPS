@@ -31,7 +31,7 @@ String BaiduErnieBot::getResponse(String inputText)
         // authentication 鉴权
         String responseErr = doc["error_code"];
         printf("[ASR] Err: %s\n", responseErr);
-        if (strcmp(responseErr.c_str(), "110") == 0)
+        if (strcmp(responseErr.c_str(), "110") == 0 || strcmp(responseErr.c_str(), "111") == 0)
         {
             gainToken();
             return "token失效了，已尝试重新获取，请试试看吧！";
