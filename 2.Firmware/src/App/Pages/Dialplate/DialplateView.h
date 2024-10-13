@@ -12,7 +12,7 @@ class DialplateView
 public:
     typedef struct
     {
-        lv_obj_t* cont; // 小字的标签也有容器？
+        lv_obj_t* cont;
         lv_obj_t* lableValue;
         lv_obj_t* lableUnit;
     } SubInfo_t;

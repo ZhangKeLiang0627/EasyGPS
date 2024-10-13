@@ -54,6 +54,8 @@ static int Recorder_GetTimeConv(
             clock.hour,
             clock.minute,
             clock.second);
+
+        printf("[DP] RecorderGetClock: retval = %d!\r\n", retval);
     }
 
     return retval;
@@ -73,6 +75,7 @@ static void Recorder_RecPoint(Recorder_t *recorder, HAL::GPS_Info_t *gpsInfo)
     if (ret < 0)
     {
         LV_LOG_WARN("cant't get time");
+        printf("[DP] RecorderGetClock: cant't get time\r\n");
         return;
     }
 
@@ -100,6 +103,7 @@ static void Recorder_RecStart(Recorder_t *recorder, uint16_t time)
     if (ret < 0)
     {
         LV_LOG_WARN("cant't get time");
+        printf("[DP] RecorderGetClock: cant't get time\r\n");
         return;
     }
 
@@ -108,6 +112,7 @@ static void Recorder_RecStart(Recorder_t *recorder, uint16_t time)
     if (res == LV_FS_RES_OK)
     {
         LV_LOG_USER("Track file %s open success", filepath);
+        printf("[DP] Recorder: Track file %s open success\r\n", filepath);
 
         GPX *gpx = &(recorder->gpx);
         lv_fs_file_t *file_p = &(recorder->file);
@@ -127,7 +132,9 @@ static void Recorder_RecStart(Recorder_t *recorder, uint16_t time)
     }
     else
     {
-        LV_LOG_ERROR("Track file open error!");
+        LV_LOG_ERROR("Track file open error");
+        printf("[DP] Recorder: Track file open error: %d!\r\n", res);
+        printf("[DP] Track file name: %s\r\n", filepath);
     }
 }
 
@@ -144,6 +151,7 @@ static void Recorder_RecStop(Recorder_t *recorder)
     lv_fs_close(file_p);
 
     LV_LOG_USER("Track record end");
+    printf("[DP] Recorder: Track record end\r\n");
 }
 
 static int onNotify(Recorder_t *recorder, Recorder_Info_t *info)

@@ -2,132 +2,128 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#define ARRAY_SIZE(arr) (sizeof(arr)/sizeof(arr[0])) // »ñÈ¡Êı×é´óĞ¡
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0])) // è·å–æ•°ç»„å¤§å°
 
 using namespace Page;
 
-void DialplateView::Create(lv_obj_t* root) // ³õÊ¼»¯»­²¼
+void DialplateView::Create(lv_obj_t *root) // åˆå§‹åŒ–ç”»å¸ƒ
 {
-    BottomInfo_Create(root); // Èı¸ö´ó¿é£¬·Ö³ÉÈı¸ö³õÊ¼»¯
+    BottomInfo_Create(root); // ä¸‰ä¸ªå¤§å—ï¼Œåˆ†æˆä¸‰ä¸ªåˆå§‹åŒ–
     TopInfo_Create(root);
     BtnCont_Create(root);
 
-    ui.anim_timeline = lv_anim_timeline_create(); // lv_anim_timeline_createÓÃÓÚ´´½¨Ò»¸öÊ±¼äÖá¶¯»­¡£Ê±¼äÖá¶¯»­ÊÇÒ»ÖÖ»ùÓÚÊ±¼äµÄ¶¯»­£¬¿ÉÒÔÍ¨¹ıÔÚÒ»¶¨Ê±¼äÄÚ¶Ô¶ÔÏóÊôĞÔ½øĞĞÖğ²½ĞŞ¸ÄÀ´ÊµÏÖ
-// ºê¶¨ÒåÕæµÄÓÃµÄ³öÉñÈë»¯°¡£¬ÏÛÄ½£¡ÕâÀïµÄÒâË¼ÊÇ¶¨ÒåÀàËÆ½á¹¹Ìå³ÉÔ±£¬ÏÂÃæwrapper[]ÀïÓÃµ½£¬¶¯»­Ïà¹ØµÄ¹ş
+    ui.anim_timeline = lv_anim_timeline_create(); // lv_anim_timeline_createç”¨äºåˆ›å»ºä¸€ä¸ªæ—¶é—´è½´åŠ¨ç”»ã€‚æ—¶é—´è½´åŠ¨ç”»æ˜¯ä¸€ç§åŸºäºæ—¶é—´çš„åŠ¨ç”»ï¼Œå¯ä»¥é€šè¿‡åœ¨ä¸€å®šæ—¶é—´å†…å¯¹å¯¹è±¡å±æ€§è¿›è¡Œé€æ­¥ä¿®æ”¹æ¥å®ç°
+// å®å®šä¹‰çœŸçš„ç”¨çš„å‡ºç¥å…¥åŒ–å•Šï¼Œç¾¡æ…•ï¼è¿™é‡Œçš„æ„æ€æ˜¯å®šä¹‰ç±»ä¼¼ç»“æ„ä½“æˆå‘˜ï¼Œä¸‹é¢wrapper[]é‡Œç”¨åˆ°ï¼ŒåŠ¨ç”»ç›¸å…³çš„å“ˆ
 #define ANIM_DEF(start_time, obj, attr, start, end) \
     {start_time, obj, LV_ANIM_EXEC(attr), start, end, 500, lv_anim_path_ease_out, true}
-//ÕâÀïÒ²ÊÇ¶¨Òå½á¹¹Ìå³ÉÔ±£¬ºÍÍ¸Ã÷¶È±ä»¯Ïà¹ØµÄ
+// è¿™é‡Œä¹Ÿæ˜¯å®šä¹‰ç»“æ„ä½“æˆå‘˜ï¼Œå’Œé€æ˜åº¦å˜åŒ–ç›¸å…³çš„
 #define ANIM_OPA_DEF(start_time, obj) \
     ANIM_DEF(start_time, obj, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER)
 
-    lv_coord_t y_tar_top = lv_obj_get_y(ui.topInfo.cont); // emm contÕâÀïÀí½â³ÉÈİÆ÷°É£¬ÆäÊµ¾ÍÊÇ°üº¬TopInfoµÄĞ¡»­²¼£¬rootÊÇ´ó»­²¼Âï£¬ÕâÑùÓ¦¸ÃÄÜ¶®°É
+    lv_coord_t y_tar_top = lv_obj_get_y(ui.topInfo.cont); // emm contè¿™é‡Œç†è§£æˆå®¹å™¨å§ï¼Œå…¶å®å°±æ˜¯åŒ…å«TopInfoçš„å°ç”»å¸ƒï¼Œrootæ˜¯å¤§ç”»å¸ƒå˜›ï¼Œè¿™æ ·åº”è¯¥èƒ½æ‡‚å§
     lv_coord_t y_tar_bottom = lv_obj_get_y(ui.bottomInfo.cont);
     lv_coord_t h_tar_btn = lv_obj_get_height(ui.btnCont.btnRec);
 
     lv_anim_timeline_wrapper_t wrapper[] =
-    {
-        ANIM_DEF(0, ui.topInfo.cont, y, -lv_obj_get_height(ui.topInfo.cont), y_tar_top), // ÕâÀï¶¯»­ÊÇ´Ó¶¥ÉÏÍùÏÂ»¬³öÀ´µÄ
+        {
+            ANIM_DEF(0, ui.topInfo.cont, y, -lv_obj_get_height(ui.topInfo.cont), y_tar_top), // è¿™é‡ŒåŠ¨ç”»æ˜¯ä»é¡¶ä¸Šå¾€ä¸‹æ»‘å‡ºæ¥çš„
 
-        ANIM_DEF(200, ui.bottomInfo.cont, y, -lv_obj_get_height(ui.bottomInfo.cont), y_tar_bottom),// ÕâÀï¶¯»­ÊÇ´Ó¶¥ÉÏÍùÏÂ»¬³öÀ´µÄ
-        ANIM_OPA_DEF(200, ui.bottomInfo.cont),
+            ANIM_DEF(200, ui.bottomInfo.cont, y, -lv_obj_get_height(ui.bottomInfo.cont), y_tar_bottom), // è¿™é‡ŒåŠ¨ç”»æ˜¯ä»é¡¶ä¸Šå¾€ä¸‹æ»‘å‡ºæ¥çš„
+            ANIM_OPA_DEF(200, ui.bottomInfo.cont),
 
-        ANIM_DEF(500, ui.btnCont.btnMap, height, 0, h_tar_btn),
-        ANIM_DEF(600, ui.btnCont.btnRec, height, 0, h_tar_btn),
-        ANIM_DEF(700, ui.btnCont.btnMenu, height, 0, h_tar_btn),
-        LV_ANIM_TIMELINE_WRAPPER_END // Õâ¸ö±êÖ¾×Å½á¹¹Ìå³ÉÔ±½áÊø£¬²»ÄÜÊ¡ÂÔ£¬ÔÚÏÂÃæº¯Êılv_anim_timeline_add_wrapperµÄÂÖÑ¯ÖĞ×öÅĞ¶ÏÌõ¼ş
-    };
+            ANIM_DEF(500, ui.btnCont.btnMap, height, 0, h_tar_btn),
+            ANIM_DEF(600, ui.btnCont.btnRec, height, 0, h_tar_btn),
+            ANIM_DEF(700, ui.btnCont.btnMenu, height, 0, h_tar_btn),
+            LV_ANIM_TIMELINE_WRAPPER_END // è¿™ä¸ªæ ‡å¿—ç€ç»“æ„ä½“æˆå‘˜ç»“æŸï¼Œä¸èƒ½çœç•¥ï¼Œåœ¨ä¸‹é¢å‡½æ•°lv_anim_timeline_add_wrapperçš„è½®è¯¢ä¸­åšåˆ¤æ–­æ¡ä»¶
+        };
     lv_anim_timeline_add_wrapper(ui.anim_timeline, wrapper);
 }
 
 void DialplateView::Delete()
 {
-    if(ui.anim_timeline)
+    if (ui.anim_timeline)
     {
         lv_anim_timeline_del(ui.anim_timeline);
         ui.anim_timeline = nullptr;
     }
 }
 
-void DialplateView::TopInfo_Create(lv_obj_t* par)
+void DialplateView::TopInfo_Create(lv_obj_t *par)
 {
-    lv_obj_t* cont = lv_obj_create(par); // par´«½øÀ´µÄÊÇ´ó»­²¼£¬ËùÒÔcontÕâÀïÒÔ´ó»­²¼×÷Îª¸¸¶ÔÏó
-    lv_obj_remove_style_all(cont);       // lv_obj_remove_style_allÓÃÓÚ´Ó¶ÔÏóÖĞÉ¾³ıËùÓĞÑùÊ½¡£Õâ¸öº¯Êı¿ÉÒÔÓÃÓÚÇå³ı¶ÔÏóÉÏÒÑ¾­Ó¦ÓÃµÄËùÓĞÑùÊ½£¬Ê¹¶ÔÏó»Ö¸´µ½Ä¬ÈÏµÄÍâ¹Û¡£
-    lv_obj_set_size(cont, LV_HOR_RES, 142); // ÉèÖÃcont»­²¼µÄ´óĞ¡£¬Ë®Æ½¿í¶ÈÊÇÄ¬ÈÏµÄ£¬¸ß¶ÈÉèÎª142£¨240*240£©
+    lv_obj_t *cont = lv_obj_create(par);    // parä¼ è¿›æ¥çš„æ˜¯å¤§ç”»å¸ƒï¼Œæ‰€ä»¥contè¿™é‡Œä»¥å¤§ç”»å¸ƒä½œä¸ºçˆ¶å¯¹è±¡
+    lv_obj_remove_style_all(cont);          // lv_obj_remove_style_allç”¨äºä»å¯¹è±¡ä¸­åˆ é™¤æ‰€æœ‰æ ·å¼ã€‚è¿™ä¸ªå‡½æ•°å¯ä»¥ç”¨äºæ¸…é™¤å¯¹è±¡ä¸Šå·²ç»åº”ç”¨çš„æ‰€æœ‰æ ·å¼ï¼Œä½¿å¯¹è±¡æ¢å¤åˆ°é»˜è®¤çš„å¤–è§‚ã€‚
+    lv_obj_set_size(cont, LV_HOR_RES, 142); // è®¾ç½®contç”»å¸ƒçš„å¤§å°ï¼Œæ°´å¹³å®½åº¦æ˜¯é»˜è®¤çš„ï¼Œé«˜åº¦è®¾ä¸º142ï¼ˆ240*240ï¼‰
 
-    lv_obj_set_style_bg_opa(cont, LV_OPA_COVER, 0); // ÉèÖÃcont»­²¼ÍêÈ«²»Í¸Ã÷£¬0±íÊ¾Ä¬ÈÏ×´Ì¬£¬µ±È»»¹ÓĞÊ²Ã´°´¼ü°´ÏÂ×´Ì¬£¬¾Û½¹×´Ì¬Ö®ÀàµÄ
-    lv_obj_set_style_bg_color(cont, lv_color_hex(0x333333), 0); // ÉèÖÃcont»­²¼µÄ±³¾°É«
+    lv_obj_set_style_bg_opa(cont, LV_OPA_COVER, 0);             // è®¾ç½®contç”»å¸ƒå®Œå…¨ä¸é€æ˜ï¼Œ0è¡¨ç¤ºé»˜è®¤çŠ¶æ€ï¼Œå½“ç„¶è¿˜æœ‰ä»€ä¹ˆæŒ‰é”®æŒ‰ä¸‹çŠ¶æ€ï¼Œèšç„¦çŠ¶æ€ä¹‹ç±»çš„
+    lv_obj_set_style_bg_color(cont, lv_color_hex(0x333333), 0); // è®¾ç½®contç”»å¸ƒçš„èƒŒæ™¯è‰²
 
-    lv_obj_set_style_radius(cont, 27, 0); // lv_obj_set_style_radiusÓÃÓÚÉèÖÃ¶ÔÏóµÄÔ²½Ç°ë¾¶¡£ËüÔÊĞíÓÃ»§ÎªÌØ¶¨µÄ¶ÔÏó£¨Èç°´Å¥¡¢ÈİÆ÷µÈ£©ÉèÖÃÔ²½Ç£¬Ê¹ÆäÓµÓĞÔ²ÈóµÄÍâ¹Û¡£
-    lv_obj_set_y(cont, -36); // ÉèÖÃcont»­²¼µÄy×ø±ê£¬²Ø×¡ÉÏÃæµÄÔ²½Ç£¬Ö»Â¶³öÏÂÃæµÄÔ²½Ç£¬good£¡
-    ui.topInfo.cont = cont; // °Ñcont»­²¼µÄÖ¸Õë´«¸ø½á¹¹ÌåÀïµÄcont
+    lv_obj_set_style_radius(cont, 27, 0); // lv_obj_set_style_radiusç”¨äºè®¾ç½®å¯¹è±¡çš„åœ†è§’åŠå¾„ã€‚å®ƒå…è®¸ç”¨æˆ·ä¸ºç‰¹å®šçš„å¯¹è±¡ï¼ˆå¦‚æŒ‰é’®ã€å®¹å™¨ç­‰ï¼‰è®¾ç½®åœ†è§’ï¼Œä½¿å…¶æ‹¥æœ‰åœ†æ¶¦çš„å¤–è§‚ã€‚
+    lv_obj_set_y(cont, -36);              // è®¾ç½®contç”»å¸ƒçš„yåæ ‡ï¼Œè—ä½ä¸Šé¢çš„åœ†è§’ï¼Œåªéœ²å‡ºä¸‹é¢çš„åœ†è§’ï¼Œgoodï¼
+    ui.topInfo.cont = cont;               // æŠŠcontç”»å¸ƒçš„æŒ‡é’ˆä¼ ç»™ç»“æ„ä½“é‡Œçš„cont
 
-    lv_obj_t* label = lv_label_create(cont); // »ùÓÚcont»­²¼´´½¨label£¬ÏÔÊ¾ÂëËÙ
-    lv_obj_set_style_text_font(label, ResourcePool::GetFont("bahnschrift_65"), 0); // ÉèÖÃ×ÖÌåÑùÊ½
-    lv_obj_set_style_text_color(label, lv_color_white(), 0); // ÉèÖÃ×ÖÌåÑÕÉ«
-    lv_label_set_text(label, "00"); // Éè±êÇ©Îª¡®00¡¯×ÖÑù
-    lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 63); // Éè±êÇ©¶¥¾ÓÖĞ£¬yÏòÏÂÆ«ÒÆ63
-    ui.topInfo.labelSpeed = label;                // ½«labelÖ¸Õë´«¸øÁËlabelSpeed£¬ËùÒÔÏÂÃæ¾Í¿ÉÒÔ½Ó×ÅĞŞ¸Älabel
+    lv_obj_t *label = lv_label_create(cont);                                       // åŸºäºcontç”»å¸ƒåˆ›å»ºlabelï¼Œæ˜¾ç¤ºç é€Ÿ
+    lv_obj_set_style_text_font(label, ResourcePool::GetFont("bahnschrift_65"), 0); // è®¾ç½®å­—ä½“æ ·å¼
+    lv_obj_set_style_text_color(label, lv_color_white(), 0);                       // è®¾ç½®å­—ä½“é¢œè‰²
+    lv_label_set_text(label, "00");                                                // è®¾æ ‡ç­¾ä¸ºâ€˜00â€™å­—æ ·
+    lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 63);                                  // è®¾æ ‡ç­¾é¡¶å±…ä¸­ï¼Œyå‘ä¸‹åç§»63
+    ui.topInfo.labelSpeed = label;                                                 // å°†labelæŒ‡é’ˆä¼ ç»™äº†labelSpeedï¼Œæ‰€ä»¥ä¸‹é¢å°±å¯ä»¥æ¥ç€ä¿®æ”¹label
 
-    label = lv_label_create(cont); // »ùÓÚcont»­²¼ÔÙ´Î´´½¨label£¬ÏÔÊ¾µ¥Î»
+    label = lv_label_create(cont); // åŸºäºcontç”»å¸ƒå†æ¬¡åˆ›å»ºlabelï¼Œæ˜¾ç¤ºå•ä½
     lv_obj_set_style_text_font(label, ResourcePool::GetFont("bahnschrift_17"), 0);
     lv_obj_set_style_text_color(label, lv_color_white(), 0);
     lv_label_set_text(label, "km/h");
-    lv_obj_align_to(label, ui.topInfo.labelSpeed, LV_ALIGN_OUT_BOTTOM_MID, 0, 8); // LV_ALIGN_OUT_BOTTOM_MID±íÊ¾¶ÔÏóµÄµ×²¿ÖĞĞÄµãÓëÆä¸¸¼¶ÈİÆ÷µÄµ×²¿¶ÔÆë£¬²¢ÇÒ¶ÔÏóÔÚË®Æ½·½ÏòÉÏ¾ÓÖĞ¶ÔÆë¡£
+    lv_obj_align_to(label, ui.topInfo.labelSpeed, LV_ALIGN_OUT_BOTTOM_MID, 0, 8); // LV_ALIGN_OUT_BOTTOM_MIDè¡¨ç¤ºå¯¹è±¡çš„åº•éƒ¨ä¸­å¿ƒç‚¹ä¸å…¶çˆ¶çº§å®¹å™¨çš„åº•éƒ¨å¯¹é½ï¼Œå¹¶ä¸”å¯¹è±¡åœ¨æ°´å¹³æ–¹å‘ä¸Šå±…ä¸­å¯¹é½ã€‚
     ui.topInfo.labelUint = label;
 }
 
-void DialplateView::BottomInfo_Create(lv_obj_t* par)
+void DialplateView::BottomInfo_Create(lv_obj_t *par)
 {
-    lv_obj_t* cont = lv_obj_create(par);
+    lv_obj_t *cont = lv_obj_create(par);
     lv_obj_remove_style_all(cont);
-    lv_obj_set_style_bg_color(cont, lv_color_black(), 0); // ÉèÖÃcont»­²¼±³¾°ÑÕÉ«ÎªºÚÉ«
+    lv_obj_set_style_bg_color(cont, lv_color_black(), 0); // è®¾ç½®contç”»å¸ƒèƒŒæ™¯é¢œè‰²ä¸ºé»‘è‰²
     lv_obj_set_size(cont, LV_HOR_RES, 90);
     lv_obj_align(cont, LV_ALIGN_TOP_MID, 0, 106);
 
-    lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_ROW_WRAP); // lv_obj_set_flex_flowÓÃÓÚÉèÖÃ¶ÔÏóµÄ Flex ²¼¾ÖÁ÷·½Ïò¡£Flex ²¼¾ÖÊÇÒ»ÖÖÓÃÓÚ´´½¨Áé»îµÄ¡¢×ÔÊÊÓ¦µÄÓÃ»§½çÃæ²¼¾ÖµÄ¼¼Êõ£¬Ëü¿ÉÒÔ°ïÖúÄãÇáËÉµØÊµÏÖµ¯ĞÔºÍÏìÓ¦Ê½Éè¼Æ¡£
-                                                       // LV_FLEX_FLOW_ROW_WRAPÓÃÓÚÉèÖÃ¶ÔÏóµÄ Flex ²¼¾ÖÁ÷·½ÏòÎªË®Æ½·½Ïò²¼¾Ö²¢ÇÒ»»ĞĞ¡£
-    lv_obj_set_flex_align(                             // lv_obj_set_flex_alignÓÃÓÚÉèÖÃ Flex ²¼¾ÖÖĞµÄ¶ÔÆë·½Ê½¡£Ëü¿ÉÒÔ°ïÖúÄãÇáËÉµØÊµÏÖµ¯ĞÔºÍÏìÓ¦Ê½Éè¼Æ¡£
+    lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_ROW_WRAP); // lv_obj_set_flex_flowç”¨äºè®¾ç½®å¯¹è±¡çš„ Flex å¸ƒå±€æµæ–¹å‘ã€‚Flex å¸ƒå±€æ˜¯ä¸€ç§ç”¨äºåˆ›å»ºçµæ´»çš„ã€è‡ªé€‚åº”çš„ç”¨æˆ·ç•Œé¢å¸ƒå±€çš„æŠ€æœ¯ï¼Œå®ƒå¯ä»¥å¸®åŠ©ä½ è½»æ¾åœ°å®ç°å¼¹æ€§å’Œå“åº”å¼è®¾è®¡ã€‚
+                                                       // LV_FLEX_FLOW_ROW_WRAPç”¨äºè®¾ç½®å¯¹è±¡çš„ Flex å¸ƒå±€æµæ–¹å‘ä¸ºæ°´å¹³æ–¹å‘å¸ƒå±€å¹¶ä¸”æ¢è¡Œã€‚
+    lv_obj_set_flex_align(                             // lv_obj_set_flex_alignç”¨äºè®¾ç½® Flex å¸ƒå±€ä¸­çš„å¯¹é½æ–¹å¼ã€‚å®ƒå¯ä»¥å¸®åŠ©ä½ è½»æ¾åœ°å®ç°å¼¹æ€§å’Œå“åº”å¼è®¾è®¡ã€‚
         cont,
-        LV_FLEX_ALIGN_SPACE_EVENLY, // ÔÚÖ÷Öá»ò½»²æÖáÉÏÆ½¾ù·ÖÅä¿Õ¼ä£¬°üÀ¨Ê×Î²
+        LV_FLEX_ALIGN_SPACE_EVENLY, // åœ¨ä¸»è½´æˆ–äº¤å‰è½´ä¸Šå¹³å‡åˆ†é…ç©ºé—´ï¼ŒåŒ…æ‹¬é¦–å°¾
         LV_FLEX_ALIGN_CENTER,
-        LV_FLEX_ALIGN_CENTER
-        );
+        LV_FLEX_ALIGN_CENTER);
 
     ui.bottomInfo.cont = cont;
 
-    const char* unitText[4] =
-    {
-        "AVG",
-        "Time",
-        "Trip",
-        "Calorie"
-    };
+    const char *unitText[4] =
+        {
+            "AVG",
+            "Time",
+            "Trip",
+            "Calorie"};
 
-    for (int i = 0; i < ARRAY_SIZE(ui.bottomInfo.labelInfoGrp); i++) // ÂÖÑ¯Ìí¼ÓĞÅÏ¢±êÇ©£¬ËüºÃÏ¸½Ú°¡£¡¾ÍÁ¬Ğ¡±êÇ©Ò²¸ã¸öÈİÆ÷´æ×Å
+    for (int i = 0; i < ARRAY_SIZE(ui.bottomInfo.labelInfoGrp); i++) // è½®è¯¢æ·»åŠ ä¿¡æ¯æ ‡ç­¾ï¼Œå®ƒå¥½ç»†èŠ‚å•Šï¼å°±è¿å°æ ‡ç­¾ä¹Ÿæä¸ªå®¹å™¨å­˜ç€
     {
         SubInfoGrp_Create(
             cont,
             &(ui.bottomInfo.labelInfoGrp[i]),
-            unitText[i]
-        );
+            unitText[i]);
     }
 }
 
-void DialplateView::SubInfoGrp_Create(lv_obj_t* par, SubInfo_t* info, const char* unitText) // ´´½¨ĞÅÏ¢±êÇ©£¨gps¡¢time¡¢¿¨Â·Àï£©µÈ
+void DialplateView::SubInfoGrp_Create(lv_obj_t *par, SubInfo_t *info, const char *unitText) // åˆ›å»ºä¿¡æ¯æ ‡ç­¾ï¼ˆgpsã€timeã€å¡è·¯é‡Œï¼‰ç­‰
 {
-    lv_obj_t* cont = lv_obj_create(par);
+    lv_obj_t *cont = lv_obj_create(par);
     lv_obj_remove_style_all(cont);
     lv_obj_set_size(cont, 93, 39);
 
     lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(
         cont,
-        LV_FLEX_ALIGN_SPACE_AROUND, // ÔÚÖ÷Öá»ò½»²æÖáÉÏÆ½¾ù·ÖÅä¿Õ¼ä
-        LV_FLEX_ALIGN_CENTER, // ÔÚÖ÷Öá»ò½»²æÖáµÄÖĞĞÄÎ»ÖÃ¶ÔÆë
-        LV_FLEX_ALIGN_CENTER
-    );
+        LV_FLEX_ALIGN_SPACE_AROUND, // åœ¨ä¸»è½´æˆ–äº¤å‰è½´ä¸Šå¹³å‡åˆ†é…ç©ºé—´
+        LV_FLEX_ALIGN_CENTER,       // åœ¨ä¸»è½´æˆ–äº¤å‰è½´çš„ä¸­å¿ƒä½ç½®å¯¹é½
+        LV_FLEX_ALIGN_CENTER);
 
-    lv_obj_t* label = lv_label_create(cont);
+    lv_obj_t *label = lv_label_create(cont);
     lv_obj_set_style_text_font(label, ResourcePool::GetFont("bahnschrift_17"), 0);
     lv_obj_set_style_text_color(label, lv_color_white(), 0);
     info->lableValue = label;
@@ -141,12 +137,12 @@ void DialplateView::SubInfoGrp_Create(lv_obj_t* par, SubInfo_t* info, const char
     info->cont = cont;
 }
 
-void DialplateView::BtnCont_Create(lv_obj_t* par) // °´Å¥ÈİÆ÷»­²¼µÄ´´½¨
+void DialplateView::BtnCont_Create(lv_obj_t *par) // æŒ‰é’®å®¹å™¨ç”»å¸ƒçš„åˆ›å»º
 {
-    lv_obj_t* cont = lv_obj_create(par);
+    lv_obj_t *cont = lv_obj_create(par);
     lv_obj_remove_style_all(cont);
     lv_obj_set_size(cont, LV_HOR_RES, 40);
-    lv_obj_align_to(cont, ui.bottomInfo.cont, LV_ALIGN_OUT_BOTTOM_MID, 0, 0); // lv_obj_align_toÏà¶Ô¸¸ÀàÈİÆ÷½øĞĞ¶ÔÆë
+    lv_obj_align_to(cont, ui.bottomInfo.cont, LV_ALIGN_OUT_BOTTOM_MID, 0, 0); // lv_obj_align_toç›¸å¯¹çˆ¶ç±»å®¹å™¨è¿›è¡Œå¯¹é½
 
     /*lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_ROW);
     lv_obj_set_flex_place(
@@ -158,48 +154,47 @@ void DialplateView::BtnCont_Create(lv_obj_t* par) // °´Å¥ÈİÆ÷»­²¼µÄ´´½¨
 
     ui.btnCont.cont = cont;
 
-    ui.btnCont.btnMap = Btn_Create(cont, ResourcePool::GetImage("locate"), -80); // ´´½¨Èı¸öbutton
+    ui.btnCont.btnMap = Btn_Create(cont, ResourcePool::GetImage("locate"), -80); // åˆ›å»ºä¸‰ä¸ªbutton
     ui.btnCont.btnRec = Btn_Create(cont, ResourcePool::GetImage("start"), 0);
     ui.btnCont.btnMenu = Btn_Create(cont, ResourcePool::GetImage("menu"), 80);
 }
 
-lv_obj_t* DialplateView::Btn_Create(lv_obj_t* par, const void* img_src, lv_coord_t x_ofs)
+lv_obj_t *DialplateView::Btn_Create(lv_obj_t *par, const void *img_src, lv_coord_t x_ofs)
 {
-    lv_obj_t* obj = lv_obj_create(par);
+    lv_obj_t *obj = lv_obj_create(par);
     lv_obj_remove_style_all(obj);
     lv_obj_set_size(obj, 40, 31);
-    lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE); // lv_obj_clear_flagÓÃÓÚÇå³ıÖ¸¶¨¶ÔÏóµÄ±êÖ¾Î»¡£±êÖ¾Î»ÊÇÓÃÀ´±íÊ¾¶ÔÏó×´Ì¬»òÌØĞÔµÄÒ»¸ö±ê¼Ç£¬Í¨¹ıÉèÖÃ»òÇå³ı±êÖ¾Î»¿ÉÒÔ¸Ä±ä¶ÔÏóµÄĞĞÎª»òÍâ¹Û¡£
-                                                    // ¾ÍÊÇËµÕâÀïÉ¾È¥Ô­±¾Ä¬ÈÏµÄ°´Å¥ÑùÊ½£¬ÎªÏÂÃæ×Ô¶¨ÒåÌí¼ÓÍ¼Æ¬×ö×¼±¸
+    lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE); // lv_obj_clear_flagç”¨äºæ¸…é™¤æŒ‡å®šå¯¹è±¡çš„æ ‡å¿—ä½ã€‚æ ‡å¿—ä½æ˜¯ç”¨æ¥è¡¨ç¤ºå¯¹è±¡çŠ¶æ€æˆ–ç‰¹æ€§çš„ä¸€ä¸ªæ ‡è®°ï¼Œé€šè¿‡è®¾ç½®æˆ–æ¸…é™¤æ ‡å¿—ä½å¯ä»¥æ”¹å˜å¯¹è±¡çš„è¡Œä¸ºæˆ–å¤–è§‚ã€‚
+                                                    // å°±æ˜¯è¯´è¿™é‡Œåˆ å»åŸæœ¬é»˜è®¤çš„æŒ‰é’®æ ·å¼ï¼Œä¸ºä¸‹é¢è‡ªå®šä¹‰æ·»åŠ å›¾ç‰‡åšå‡†å¤‡
     lv_obj_align(obj, LV_ALIGN_CENTER, x_ofs, 0);
-    lv_obj_set_style_bg_img_src(obj, img_src, 0); // lv_obj_set_style_bg_img_srcÓÃÓÚÉèÖÃ¶ÔÏóµÄ±³¾°Í¼ÏñÔ´¡£Í¨¹ıÕâ¸öº¯Êı¿ÉÒÔÎªÖ¸¶¨µÄ¶ÔÏóÉèÖÃ±³¾°Í¼Ïñ£¬¿ÉÒÔÊÇÄÚ´æÖĞµÄÍ¼Æ¬Êı¾İ£¬Ò²¿ÉÒÔÊÇÎÄ¼şÂ·¾¶
+    lv_obj_set_style_bg_img_src(obj, img_src, 0); // lv_obj_set_style_bg_img_srcç”¨äºè®¾ç½®å¯¹è±¡çš„èƒŒæ™¯å›¾åƒæºã€‚é€šè¿‡è¿™ä¸ªå‡½æ•°å¯ä»¥ä¸ºæŒ‡å®šçš„å¯¹è±¡è®¾ç½®èƒŒæ™¯å›¾åƒï¼Œå¯ä»¥æ˜¯å†…å­˜ä¸­çš„å›¾ç‰‡æ•°æ®ï¼Œä¹Ÿå¯ä»¥æ˜¯æ–‡ä»¶è·¯å¾„
 
-    lv_obj_set_style_bg_opa(obj, LV_OPA_COVER, 0); //ÉèÖÃÍ¸Ã÷¶È£¬²»Í¸Ã÷
-    lv_obj_set_style_width(obj, 45, LV_STATE_PRESSED); // ÉèÖÃbutton°´ÏÂÊ±µÄ³¤¿í
+    lv_obj_set_style_bg_opa(obj, LV_OPA_COVER, 0);     // è®¾ç½®é€æ˜åº¦ï¼Œä¸é€æ˜
+    lv_obj_set_style_width(obj, 45, LV_STATE_PRESSED); // è®¾ç½®buttonæŒ‰ä¸‹æ—¶çš„é•¿å®½
     lv_obj_set_style_height(obj, 25, LV_STATE_PRESSED);
-    lv_obj_set_style_bg_color(obj, lv_color_hex(0x666666), 0); //ÉèÖÃ°´Å¥Ä¬ÈÏµÄÑÕÉ«
-    lv_obj_set_style_bg_color(obj, lv_color_hex(0xbbbbbb), LV_STATE_PRESSED); // ÉèÖÃ°´Å¥ÔÚ±»°´ÏÂÊ±µÄÑÕÉ«
-    lv_obj_set_style_bg_color(obj, lv_color_hex(0xff931e), LV_STATE_FOCUSED); // ÉèÖÃ°´Å¥ÔÚ±»¾Û½¹Ê±µÄÑÕÉ«
-    lv_obj_set_style_radius(obj, 9, 0); // °´Å¥»­Ô²½Ç
+    lv_obj_set_style_bg_color(obj, lv_color_hex(0x666666), 0);                // è®¾ç½®æŒ‰é’®é»˜è®¤çš„é¢œè‰²
+    lv_obj_set_style_bg_color(obj, lv_color_hex(0xbbbbbb), LV_STATE_PRESSED); // è®¾ç½®æŒ‰é’®åœ¨è¢«æŒ‰ä¸‹æ—¶çš„é¢œè‰²
+    lv_obj_set_style_bg_color(obj, lv_color_hex(0xff931e), LV_STATE_FOCUSED); // è®¾ç½®æŒ‰é’®åœ¨è¢«èšç„¦æ—¶çš„é¢œè‰²
+    lv_obj_set_style_radius(obj, 9, 0);                                       // æŒ‰é’®ç”»åœ†è§’
 
-    static lv_style_transition_dsc_t tran; // lv_style_transition_dsc_tÓÃÓÚÃèÊöÑùÊ½¹ı¶ÉµÄÊôĞÔ¡£Õâ¸öÊı¾İ½á¹¹ÓÃÓÚ¶¨ÒåÑùÊ½¹ı¶ÉµÄ¶¯»­Ğ§¹û£¬°üÀ¨¹ı¶ÉµÄÊ±¼ä¡¢ÑÓ³Ù¡¢»º¶¯º¯ÊıµÈÊôĞÔ
-    static const lv_style_prop_t prop[] = {LV_STYLE_WIDTH, LV_STYLE_HEIGHT, LV_STYLE_PROP_INV}; // lv_style_prop_tÃ¶¾ÙÀàĞÍ£¬ÓÃÓÚ±íÊ¾ÑùÊ½µÄÊôĞÔ¡£Õâ¸öÃ¶¾ÙÀàĞÍ¶¨ÒåÁËÒ»ÏµÁĞµÄÑùÊ½ÊôĞÔ£¬ÀıÈç±³¾°ÑÕÉ«¡¢±ß¿ò¿í¶È¡¢ÎÄ±¾ÑÕÉ«µÈ
+    static lv_style_transition_dsc_t tran;                                                      // lv_style_transition_dsc_tç”¨äºæè¿°æ ·å¼è¿‡æ¸¡çš„å±æ€§ã€‚è¿™ä¸ªæ•°æ®ç»“æ„ç”¨äºå®šä¹‰æ ·å¼è¿‡æ¸¡çš„åŠ¨ç”»æ•ˆæœï¼ŒåŒ…æ‹¬è¿‡æ¸¡çš„æ—¶é—´ã€å»¶è¿Ÿã€ç¼“åŠ¨å‡½æ•°ç­‰å±æ€§
+    static const lv_style_prop_t prop[] = {LV_STYLE_WIDTH, LV_STYLE_HEIGHT, LV_STYLE_PROP_INV}; // lv_style_prop_tæšä¸¾ç±»å‹ï¼Œç”¨äºè¡¨ç¤ºæ ·å¼çš„å±æ€§ã€‚è¿™ä¸ªæšä¸¾ç±»å‹å®šä¹‰äº†ä¸€ç³»åˆ—çš„æ ·å¼å±æ€§ï¼Œä¾‹å¦‚èƒŒæ™¯é¢œè‰²ã€è¾¹æ¡†å®½åº¦ã€æ–‡æœ¬é¢œè‰²ç­‰
     lv_style_transition_dsc_init(
         &tran,
         prop,
         lv_anim_path_ease_out,
         200,
         0,
-        nullptr
-    ); // ÎªÉ¶Òª×öÕâ¸ö³õÊ¼»¯ÄØ£¿Ô­ÒòÊÇÈç¹û²»×öÕâ¸ö³õÊ¼»¯£¬Äã°´ÏÂµÄÑùÊ½Ò²»á·¢Éú¸Ä±ä£¬µ«ÊÇ¾ÍÊÇÁ½¸öÍ¼Æ¬µÄÇĞ»»£¬¶øÃ»ÓĞ¹ı¶É¶¯»­
+        nullptr); // ä¸ºå•¥è¦åšè¿™ä¸ªåˆå§‹åŒ–å‘¢ï¼ŸåŸå› æ˜¯å¦‚æœä¸åšè¿™ä¸ªåˆå§‹åŒ–ï¼Œä½ æŒ‰ä¸‹çš„æ ·å¼ä¹Ÿä¼šå‘ç”Ÿæ”¹å˜ï¼Œä½†æ˜¯å°±æ˜¯ä¸¤ä¸ªå›¾ç‰‡çš„åˆ‡æ¢ï¼Œè€Œæ²¡æœ‰è¿‡æ¸¡åŠ¨ç”»
     lv_obj_set_style_transition(obj, &tran, LV_STATE_PRESSED);
     lv_obj_set_style_transition(obj, &tran, LV_STATE_FOCUSED);
 
-    lv_obj_update_layout(obj); // ÕæÎ°´ó£¬µ«ÊÇ¿´²»¶®£¬Ã»ÓĞÑ­»·Ë¢ĞÂ£¬ÔõÃ´¸Ä±älayout£¿
+    lv_obj_update_layout(obj); // çœŸä¼Ÿå¤§ï¼Œä½†æ˜¯çœ‹ä¸æ‡‚ï¼Œæ²¡æœ‰å¾ªç¯åˆ·æ–°ï¼Œæ€ä¹ˆæ”¹å˜layoutï¼Ÿ
 
     return obj;
 }
 
-void DialplateView::AppearAnimStart(bool reverse) // ¿ªÊ¼¿ª³¡¶¯»­
+void DialplateView::AppearAnimStart(bool reverse) // å¼€å§‹å¼€åœºåŠ¨ç”»
 {
     lv_anim_timeline_set_reverse(ui.anim_timeline, reverse);
     lv_anim_timeline_start(ui.anim_timeline);
