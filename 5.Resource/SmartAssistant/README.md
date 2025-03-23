@@ -1,14 +1,16 @@
 ## 关于智能语音助手SmartAssistant的使用方法
 
+![ssa流程](/4.Pics/ssa.png)
+
 ### 1. 获得密钥
 
 - 百度在线语音识别 & 百度在线语音合成（共用一套密钥）
 
-> 请您[戳这里:)](https://zhangkeliang0627.github.io/2024/03/24/ESP32S3%E6%8E%A5%E5%85%A5%E7%99%BE%E5%BA%A6%E5%9C%A8%E7%BA%BF%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/ESP32S3%E6%8E%A5%E5%85%A5%E7%99%BE%E5%BA%A6%E5%9C%A8%E7%BA%BF%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/)了解密钥的详细获取方法！
+> 请您[戳这里:)](https://zhangkeliang0627.github.io/2024/03/24/ESP32S3%E6%8E%A5%E5%85%A5%E7%99%BE%E5%BA%A6%E5%9C%A8%E7%BA%BF%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/README/)了解密钥的详细获取方法！
 
 - 文心一言API
 
-> 请您[戳这里:)](https://zhangkeliang0627.github.io/2024/03/25/ESP32S3%E6%8E%A5%E5%85%A5%E6%96%87%E5%BF%83%E4%B8%80%E8%A8%80/ESP32S3%E6%8E%A5%E5%85%A5%E6%96%87%E5%BF%83%E4%B8%80%E8%A8%80/)了解密钥的详细获取方法！
+> 请您[戳这里:)](https://zhangkeliang0627.github.io/2024/03/25/ESP32S3%E6%8E%A5%E5%85%A5%E6%96%87%E5%BF%83%E4%B8%80%E8%A8%80/README/)了解密钥的详细获取方法！
 
 ### 2. 填入密钥
 
